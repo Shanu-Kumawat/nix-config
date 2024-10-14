@@ -30,11 +30,11 @@ in
     neovim = (import ./home-modules/apps/neovim.nix { inherit config pkgs; });
     git = (import ./home-modules/apps/git.nix { inherit config pkgs; });
     alacritty = (import ./home-modules/apps/alacritty.nix { inherit config pkgs; });
-  #  gpg = (import ./gpg.nix { inherit config pkgs; });
   #  firefox = (import ./firefox.nix { inherit pkgs; });
     zoxide = (import ./home-modules/apps/zoxide.nix { inherit pkgs; });
-  #  password-store = (import ./pass.nix { inherit pkgs; });
     fzf = (import ./home-modules/apps/fzf.nix { inherit pkgs; });
   };
+
+  imports = [ (import ./home-modules/gnome.nix { inherit pkgs; }) ];
 
 }
