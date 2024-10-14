@@ -3,9 +3,10 @@
 {
   dconf.enable = true;
   dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      text-scaling-factor = 1.20;
-    };
+  #  "org/gnome/desktop/interface" = {                  Didn't Works
+  #    scaling-factor = lib.hm.gvariant.mkUint32 2;
+  #    text-scaling-factor = 1.0;
+  #  };
     "org/gnome/mutter" = {
       experimental-features = [ "scale-monitor-framebuffer" ];
     };
