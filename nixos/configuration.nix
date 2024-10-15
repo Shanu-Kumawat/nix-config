@@ -10,8 +10,16 @@
       ./hardware-configuration.nix
       ./system-conf/languages.nix
       ./system-conf/gpg.nix
+      ./system-conf/flutter.nix
 
     ];
+
+  programs.flutter = {
+      enable = true;
+      addToKvmGroup = true;
+      enableAdb = true;
+      user = "shanu";  # Replace with your actual username
+    };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
