@@ -16,9 +16,21 @@ let
     includeSystemImages = true;
     systemImageTypes = [ "google_apis_playstore" ];
     includeSources = false;
+        extraLicenses = [
+          "android-googletv-license"
+          "android-sdk-arm-dbt-license"
+          "android-sdk-license"
+          "android-sdk-preview-license"
+          "google-gdk-license"
+          "intel-android-extra-license"
+          "intel-android-sysimage-license"
+          "mips-android-sysimage-license"            
+       ];
   };
 
   androidSdk = androidComposition.androidsdk;
+
+  buildToolsVersion = "34.0.0"; 
 
 in {
   options.programs.flutter = {
@@ -41,6 +53,9 @@ in {
     environment.variables = {
       ANDROID_SDK_ROOT = "${androidSdk}/libexec/android-sdk";
       ANDROID_HOME = "${androidSdk}/libexec/android-sdk";
+      JAVA_HOME = "${pkgs.jdk17}";
+      GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidSdk}/libexec/android-sdk/build-tools/${buildToolsVersion}/aapt2";
+
     };
 
     nixpkgs.config = {
