@@ -7,9 +7,10 @@ in
   # paths it should manage.
   home.username = "shanu";
   home.homeDirectory = "/home/shanu";
-  xdg.enable = true;
 
- # xdg.configFile.nvim.source = mkOutOfStoreSymlink "/home/shanu/.dotfiles/config/nvim/lua/plugins/";
+  xdg.enable = true;
+  xdg.configFile.nvim.source = mkOutOfStoreSymlink "/home/shanu/.dotfiles/config/nvim";
+
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
