@@ -22,8 +22,15 @@
     };
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
+  # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.useOSProber = true;
+  boot.loader.grub.efiSupport = true;
+
+  # Fixing clock
+  time.hardwareClockInLocalTime = true;
 
   networking.hostName = "sk-nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -126,13 +133,13 @@
     eza 
     btop
     kitty    
-    lua-language-server
     jq
     ripgrep
     unzip
     gzip
     tmux 
     micro
+    vscode
 
   ];
 
