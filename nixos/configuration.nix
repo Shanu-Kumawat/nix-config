@@ -11,6 +11,9 @@
       ./system-conf/languages.nix
       ./system-conf/gpg.nix
       ./system-conf/flutter.nix
+      ./system-conf/nvidia.nix
+      ./system-conf/tlp.nix
+      ./system-conf/intel.nix
 
     ];
 
@@ -66,6 +69,9 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+
+  # For Electron Apps
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -140,6 +146,8 @@
     tmux 
     micro
     wl-clipboard
+    libsForQt5.qt5.qtwayland
+    kdePackages.qtwayland
 
   ];
 

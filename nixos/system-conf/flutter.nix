@@ -10,7 +10,7 @@ let
     platformToolsVersion = "35.0.1";
     buildToolsVersions = [ "30.0.3" "34.0.0" ];
     platformVersions = [ "34" ];
-    abiVersions = [ "arm64-v8a" ];
+    abiVersions = [ "x86_64" ];
     includeEmulator = true;
     emulatorVersion = "35.1.4";
     includeSystemImages = true;
@@ -47,6 +47,7 @@ in {
     environment.systemPackages = with pkgs; [
       flutter
       androidSdk
+      android-studio
       jdk17
     ];
 
