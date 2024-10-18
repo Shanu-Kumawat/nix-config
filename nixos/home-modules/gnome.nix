@@ -14,6 +14,7 @@
       disable-user-extensions = false;
       enabled-extensions = [
         "${pkgs.gnomeExtensions.gsconnect.extensionUuid}"
+        "${pkgs.gnomeExtensions.clipboard-indicator.extensionUuid}"
         "blur-my-shell@aunetx"
       ];
     };
@@ -23,6 +24,7 @@
   home.packages = with pkgs.gnomeExtensions; [
     gsconnect
     blur-my-shell
+    clipboard-indicator
   ];
 
   # If you want to configure extension settings, you can uncomment and adjust these:

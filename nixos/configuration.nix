@@ -139,7 +139,7 @@
     gzip
     tmux 
     micro
-    vscode
+    wl-clipboard
 
   ];
 

@@ -5,10 +5,10 @@
 
   settings = {
     window = {
-      padding = { x = 4; y = 8; };
+      padding = { x = 4; y = 4; };
       decorations = "full";
       opacity = 1;
-      startup_mode = "Windowed";
+      startup_mode = "Maximized";
       title = "Alacritty";
       dynamic_title = true;
       decorations_theme_variant = "None";
