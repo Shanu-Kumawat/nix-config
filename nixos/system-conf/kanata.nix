@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   services.kanata = {
@@ -7,8 +12,8 @@
       internalKeyboard = {
         devices = [
           "/dev/input/by-path/platform-i8042-serio-0-event-kbd"
-          "/dev/input/by-path/pci-0000:00:14.0-usb-0:3:1.0-event-kbd" 
-       ];
+          "/dev/input/by-path/pci-0000:00:14.0-usb-0:3:1.0-event-kbd"
+        ];
         extraDefCfg = "process-unmapped-keys yes";
         config = ''
           (defsrc

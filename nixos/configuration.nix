@@ -4,25 +4,33 @@
 
 { config, pkgs, ... }:
 
-{
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./system-conf/languages.nix
-      ./system-conf/gpg.nix
-      ./system-conf/flutter.nix
-      ./system-conf/nvidia.nix
-      ./system-conf/tlp.nix
-      ./system-conf/intel.nix
+let
+  # System-related imports
+  systemImports = [
+    ./hardware-configuration.nix
+    ./system-conf/nvidia.nix
+    ./system-conf/tlp.nix
+    ./system-conf/intel.nix
+    ./system-conf/gpg.nix
+  ];
 
-    ];
+  # Development-related imports
+  developmentImports = [
+    ./system-conf/development/languages.nix
+    ./system-conf/development/nvim-lsp.nix
+    ./system-conf/development/flutter.nix
+  ];
+
+in
+{
+  imports = systemImports ++ developmentImports;
 
   programs.flutter = {
-      enable = true;
-      addToKvmGroup = true;
-      enableAdb = true;
-      user = "shanu";  # Replace with your actual username
-    };
+    enable = true;
+    addToKvmGroup = true;
+    enableAdb = true;
+    user = "shanu"; # Replace with your actual username
+  };
 
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
@@ -99,22 +107,23 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-   services.libinput.enable = true;
-
+  services.libinput.enable = true;
 
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     openmoji-color
   ];
 
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.shanu = {
     isNormalUser = true;
     description = "Shanu Kumawat";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [
-    #  thunderbird
+      #  thunderbird
     ];
     shell = pkgs.zsh;
 
@@ -126,32 +135,32 @@
   # Zsh
   programs.zsh.enable = true;
 
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     wget
-    eza 
+    eza
     btop
-    kitty    
+    kitty
     jq
     ripgrep
     unzip
     gzip
-    tmux 
+    tmux
     micro
     wl-clipboard
     libsForQt5.qt5.qtwayland
     kdePackages.qtwayland
 
   ];
-
-
 
   # Enable the uinput module
   boot.kernelModules = [ "uinput" ];
@@ -165,17 +174,15 @@
   '';
 
   # Ensure the uinput group exists
-  users.groups.uinput = {};
+  users.groups.uinput = { };
 
   # Add the Kanata service user to necessary groups
   systemd.services.kanata-internalKeyboard.serviceConfig = {
-    SupplementaryGroups = [ "input" "uinput" ];
+    SupplementaryGroups = [
+      "input"
+      "uinput"
+    ];
   };
-
-
-
-
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -188,20 +195,20 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-   services.openssh.enable = true;
+  services.openssh.enable = true;
 
-   programs.ssh = {
-     extraConfig = ''
-       Host github.com
-         User git
-         IdentityFile ~/.ssh/id_ed25519_github
-       
-       # Uncomment if you need GitLab in the future
-       # Host gitlab.com
-       #   User git
-       #   IdentityFile ~/.ssh/id_ed25519_gitlab
-     '';
-   };
+  programs.ssh = {
+    extraConfig = ''
+      Host github.com
+        User git
+        IdentityFile ~/.ssh/id_ed25519_github
+
+      # Uncomment if you need GitLab in the future
+      # Host gitlab.com
+      #   User git
+      #   IdentityFile ~/.ssh/id_ed25519_gitlab
+    '';
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

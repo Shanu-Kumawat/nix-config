@@ -31,7 +31,14 @@
   oh-my-zsh = {
     enable = false;
     plugins = [
-       "git" "sudo" "golang" "kubectl" "kubectx" "rust" "command-not-found" "pass"
+      "git"
+      "sudo"
+      "golang"
+      "kubectl"
+      "kubectx"
+      "rust"
+      "command-not-found"
+      "pass"
     ];
   };
   plugins = [

@@ -8,7 +8,6 @@ in
   home.username = "shanu";
   home.homeDirectory = "/home/shanu";
 
-
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
@@ -30,8 +29,8 @@ in
     alacritty = (import ./home-modules/apps/alacritty.nix { inherit config pkgs; });
     zoxide = (import ./home-modules/apps/zoxide.nix { inherit pkgs; });
     fzf = (import ./home-modules/apps/fzf.nix { inherit pkgs; });
-    vscode = (import ./home-modules/apps/vscode.nix { inherit pkgs; }); 
-#  firefox = (import ./firefox.nix { inherit pkgs; });
+    vscode = (import ./home-modules/apps/vscode.nix { inherit pkgs; });
+    #  firefox = (import ./firefox.nix { inherit pkgs; });
   };
 
   imports = [ (import ./home-modules/gnome.nix { inherit pkgs; }) ];

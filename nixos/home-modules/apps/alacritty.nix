@@ -5,7 +5,10 @@
 
   settings = {
     window = {
-      padding = { x = 4; y = 4; };
+      padding = {
+        x = 4;
+        y = 4;
+      };
       decorations = "full";
       opacity = 1;
       startup_mode = "Maximized";
@@ -18,16 +21,20 @@
       pkgs.alacritty-theme.tokyo-night
     ];
 
-    font = let jetbrainsMono = style: {
-      family = "JetBrainsMono Nerd Font";
-      inherit style;
-    }; in {
-      size = 14;
-      normal = jetbrainsMono "Regular";
-      bold = jetbrainsMono "Bold";
-      italic = jetbrainsMono "Italic";
-      bold_italic = jetbrainsMono "Bold Italic";
-    };
+    font =
+      let
+        jetbrainsMono = style: {
+          family = "JetBrainsMono Nerd Font";
+          inherit style;
+        };
+      in
+      {
+        size = 14;
+        normal = jetbrainsMono "Regular";
+        bold = jetbrainsMono "Bold";
+        italic = jetbrainsMono "Italic";
+        bold_italic = jetbrainsMono "Bold Italic";
+      };
 
     cursor = {
       style = "Block";

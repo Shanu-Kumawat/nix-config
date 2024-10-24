@@ -77,4 +77,3 @@
     bind c new-window -c "#{pane_current_path}"
   '';
 }
-

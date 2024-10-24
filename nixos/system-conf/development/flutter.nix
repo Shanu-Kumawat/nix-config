@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -8,7 +13,10 @@ let
   androidComposition = pkgs.androidenv.composeAndroidPackages {
     toolsVersion = "26.1.1";
     platformToolsVersion = "35.0.1";
-    buildToolsVersions = [ "30.0.3" "34.0.0" ];
+    buildToolsVersions = [
+      "33.0.1"
+      "34.0.0"
+    ];
     platformVersions = [ "34" ];
     abiVersions = [ "x86_64" ];
     includeEmulator = true;
@@ -16,23 +24,24 @@ let
     includeSystemImages = true;
     systemImageTypes = [ "google_apis_playstore" ];
     includeSources = false;
-        extraLicenses = [
-          "android-googletv-license"
-          "android-sdk-arm-dbt-license"
-          "android-sdk-license"
-          "android-sdk-preview-license"
-          "google-gdk-license"
-          "intel-android-extra-license"
-          "intel-android-sysimage-license"
-          "mips-android-sysimage-license"            
-       ];
+    extraLicenses = [
+      "android-googletv-license"
+      "android-sdk-arm-dbt-license"
+      "android-sdk-license"
+      "android-sdk-preview-license"
+      "google-gdk-license"
+      "intel-android-extra-license"
+      "intel-android-sysimage-license"
+      "mips-android-sysimage-license"
+    ];
   };
 
   androidSdk = androidComposition.androidsdk;
 
-  buildToolsVersion = "30.0.3"; 
+  buildToolsVersion = "33.0.1";
 
-in {
+in
+{
   options.programs.flutter = {
     enable = mkEnableOption "Flutter development environment";
     addToKvmGroup = mkEnableOption "Add user to KVM group for hardware acceleration";
@@ -70,11 +79,9 @@ in {
       export PATH=$PATH:${androidSdk}/libexec/android-sdk/emulator
     '';
 
-
     programs.adb.enable = cfg.enableAdb;
-    users.users.${cfg.user}.extraGroups = 
-      (optional cfg.addToKvmGroup "kvm") ++
-      (optional cfg.enableAdb "adbusers");
+    users.users.${cfg.user}.extraGroups =
+      (optional cfg.addToKvmGroup "kvm") ++ (optional cfg.enableAdb "adbusers");
 
   };
 }

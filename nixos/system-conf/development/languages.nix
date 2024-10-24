@@ -5,5 +5,6 @@
     nodejs
     rustup
     gnumake
+    elixir
   ];
 }

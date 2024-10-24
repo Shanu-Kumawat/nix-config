@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
 
@@ -6,7 +11,7 @@
   hardware.graphics.enable = true;
 
   # Load "nvidia" driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
 
@@ -39,7 +44,6 @@
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
 
-
     prime = {
       # Sync mode can be enabled if you prefer to only use the NVIDIA GPU for rendering
       # sync.enable = true;
@@ -49,8 +53,8 @@
         enableOffloadCmd = true;
       };
 
-		intelBusId = "PCI:0:2:0";
-    nvidiaBusId = "PCI:1:0:0";
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
 
     };
 
