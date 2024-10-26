@@ -19,6 +19,7 @@ let
     ./system-conf/development/languages.nix
     ./system-conf/development/nvim-lsp.nix
     ./system-conf/development/flutter.nix
+    ./system-conf/development/cpp.nix
   ];
 
 in

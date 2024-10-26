@@ -56,7 +56,7 @@ in
     environment.systemPackages = with pkgs; [
       flutter
       androidSdk
-      android-studio
+      # android-studio
       jdk17
     ];
 

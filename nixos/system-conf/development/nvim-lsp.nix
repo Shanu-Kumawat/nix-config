@@ -2,9 +2,13 @@
 
 {
   environment.systemPackages = with pkgs; [
+    # lsp
     lua-language-server
     elixir-ls
     nixd
-    nixfmt-rfc-style # formater
+
+    # formater
+    stylua
+    nixfmt-rfc-style
   ];
 }
