@@ -14,10 +14,15 @@ let
     toolsVersion = "26.1.1";
     platformToolsVersion = "35.0.1";
     buildToolsVersions = [
+      "30.0.3"
       "33.0.1"
       "34.0.0"
     ];
-    platformVersions = [ "34" ];
+    platformVersions = [
+      "31"
+      "33"
+      "34"
+    ];
     abiVersions = [ "x86_64" ];
     includeEmulator = true;
     emulatorVersion = "35.1.4";
@@ -58,6 +63,7 @@ in
       androidSdk
       # android-studio
       jdk17
+      firebase-tools
     ];
 
     environment.variables = {
@@ -77,6 +83,7 @@ in
       export PATH=$PATH:${androidSdk}/libexec/android-sdk/platform-tools
       export PATH=$PATH:${androidSdk}/libexec/android-sdk/cmdline-tools/latest/bin
       export PATH=$PATH:${androidSdk}/libexec/android-sdk/emulator
+      export PATH="$PATH":"$HOME/.pub-cache/bin"
     '';
 
     programs.adb.enable = cfg.enableAdb;

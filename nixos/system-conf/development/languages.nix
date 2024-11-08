@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs; [
     nodejs
     rustup
-    elixir
+    python312Packages.pip
+    python312
   ];
 }

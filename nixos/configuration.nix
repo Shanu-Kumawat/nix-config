@@ -20,6 +20,7 @@ let
     ./system-conf/development/nvim-lsp.nix
     ./system-conf/development/flutter.nix
     ./system-conf/development/cpp.nix
+    ./system-conf/development/elixir.nix
   ];
 
 in
@@ -50,6 +51,7 @@ in
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  # networking.proxy.default = "http://edcguest:edcguest@172.31.102.29:3128/";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -160,6 +162,8 @@ in
     wl-clipboard
     libsForQt5.qt5.qtwayland
     kdePackages.qtwayland
+    tree
+    blender
 
   ];
 

@@ -13,6 +13,8 @@
 
       # OpenGL/Graphics Libraries
       glfw # GLFW with Wayland support
+      SDL2
+      SDL2.dev
       # python312Packages.glad2
       # glew # OpenGL extension loader |  will use glad
       libGL # OpenGL library
@@ -22,6 +24,8 @@
       glm # OpenGL Mathematics library
       assimp # 3D model loading
 
+      # Ui library
+      imgui
       # Development Tools
       # gdb            # GNU Debugger
       valgrind # Memory debugging
@@ -31,7 +35,7 @@
 
     # Add pkg-config paths
     environment.variables = {
-      PKG_CONFIG_PATH = "${pkgs.glfw}/lib/pkgconfig:${pkgs.libGL}/lib/pkgconfig:$PKG_CONFIG_PATH";
+      PKG_CONFIG_PATH = "${pkgs.glfw}/lib/pkgconfig:${pkgs.SDL2.dev}/lib/pkgconfig:$PKG_CONFIG_PATH";
       LD_LIBRARY_PATH = "/run/opengl-driver/lib:/run/opengl-driver-32/lib";
     };
   };
