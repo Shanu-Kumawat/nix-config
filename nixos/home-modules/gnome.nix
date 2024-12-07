@@ -22,7 +22,7 @@
 
   # Install GNOME extensions
   home.packages = with pkgs.gnomeExtensions; [
-    gsconnect
+    # gsconnect
     blur-my-shell
     clipboard-indicator
   ];

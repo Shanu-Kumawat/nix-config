@@ -1,5 +1,4 @@
 { pkgs, ... }:
-
 {
   config = {
     environment.systemPackages = with pkgs; [
@@ -12,31 +11,43 @@
       clang-tools # Additional C++ tools and analysis
 
       # OpenGL/Graphics Libraries
-      glfw # GLFW with Wayland support
+      glfw
       SDL2
       SDL2.dev
-      # python312Packages.glad2
-      # glew # OpenGL extension loader |  will use glad
-      libGL # OpenGL library
-      # mesa
+      libGL
+
+      # X11 Development Libraries for imgui
+      xorg.libX11
+      xorg.libX11.dev
+      xorg.libXext
+      xorg.libXext.dev
+      xorg.libXrandr
+      xorg.libXrandr.dev
+      xorg.libXinerama
+      xorg.libXinerama.dev
+      xorg.libXcursor
+      xorg.libXcursor.dev
+      xorg.libXi
+      xorg.libXi.dev
+      xorg.xorgproto
 
       # Mathematics and 3D
-      glm # OpenGL Mathematics library
-      assimp # 3D model loading
+      glm
+      assimp
 
-      # Ui library
-      imgui
+      # UI library
+      # imgui clone from docking branch 
+
       # Development Tools
-      # gdb            # GNU Debugger
-      valgrind # Memory debugging
-      renderdoc # Graphics debugging
-
+      valgrind
+      renderdoc
     ];
 
-    # Add pkg-config paths
     environment.variables = {
-      PKG_CONFIG_PATH = "${pkgs.glfw}/lib/pkgconfig:${pkgs.SDL2.dev}/lib/pkgconfig:$PKG_CONFIG_PATH";
-      LD_LIBRARY_PATH = "/run/opengl-driver/lib:/run/opengl-driver-32/lib";
+      PKG_CONFIG_PATH = "${pkgs.glfw}/lib/pkgconfig:${pkgs.SDL2.dev}/lib/pkgconfig:${pkgs.imgui}/lib/pkgconfig:$PKG_CONFIG_PATH";
+      LD_LIBRARY_PATH = "${pkgs.SDL2}/lib:/run/opengl-driver/lib:/run/opengl-driver-32/lib";
+      CPLUS_INCLUDE_PATH = "${pkgs.xorg.xorgproto}/include:${pkgs.xorg.libX11.dev}/include:${pkgs.SDL2.dev}/include";
+      CMAKE_PREFIX_PATH = "${pkgs.SDL2.dev}:${pkgs.SDL2}";
     };
   };
 }

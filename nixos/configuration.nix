@@ -12,6 +12,7 @@ let
     ./system-conf/tlp.nix
     ./system-conf/intel.nix
     ./system-conf/gpg.nix
+    ./system-conf/gnome.nix
   ];
 
   # Development-related imports
@@ -164,6 +165,7 @@ in
     kdePackages.qtwayland
     tree
     blender
+    gnome-network-displays
 
   ];
 
