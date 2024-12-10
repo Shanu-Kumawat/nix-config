@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
+
 {
   enable = true;
   package = pkgs.alacritty;
@@ -17,9 +22,13 @@
       decorations_theme_variant = "None";
     };
 
-    import = [
-      pkgs.alacritty-theme.tokyo-night
-    ];
+    general = {
+      import = [
+        pkgs.alacritty-theme.tokyo_night
+      ];
+
+      live_config_reload = true;
+    };
 
     font =
       let
@@ -36,6 +45,8 @@
         bold_italic = jetbrainsMono "Bold Italic";
       };
 
+    mouse.hide_when_typing = true;
+
     cursor = {
       style = "Block";
     };
@@ -44,6 +55,5 @@
       TERM = "xterm-256color";
     };
 
-    live_config_reload = true;
   };
 }
