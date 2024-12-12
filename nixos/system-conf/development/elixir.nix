@@ -23,7 +23,7 @@
   # PostgreSQL setup
   services.postgresql = {
     enable = true;
-    package = pkgs.postgresql_16;
+    package = pkgs.postgresql_17;
     # enableTCPIP = true;
     authentication = pkgs.lib.mkOverride 10 ''
       # TYPE  DATABASE        USER            ADDRESS         METHOD

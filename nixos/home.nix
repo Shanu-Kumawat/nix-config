@@ -30,6 +30,7 @@ in
     zoxide = (import ./home-modules/apps/zoxide.nix { inherit pkgs; });
     fzf = (import ./home-modules/apps/fzf.nix { inherit pkgs; });
     vscode = (import ./home-modules/apps/vscode.nix { inherit pkgs; });
+    kitty = (import ./home-modules/apps/kitty.nix { inherit pkgs config; });
     #  firefox = (import ./firefox.nix { inherit pkgs; });
   };
 
