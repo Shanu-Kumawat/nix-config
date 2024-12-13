@@ -13,6 +13,7 @@ let
     ./system-conf/intel.nix
     ./system-conf/gpg.nix
     ./system-conf/gnome.nix
+    ./system-conf/obsidian.nix
   ];
 
   # Development-related imports
@@ -38,10 +39,14 @@ in
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "nodev";
-  boot.loader.grub.useOSProber = true;
-  boot.loader.grub.efiSupport = true;
+
+  boot.loader.grub = {
+    enable = true;
+    device = "nodev";
+    useOSProber = true;
+    efiSupport = true;
+
+  };
 
   # Fixing clock
   time.hardwareClockInLocalTime = true;
@@ -166,30 +171,9 @@ in
     tree
     blender
     gnome-network-displays
+    appflowy
 
   ];
-
-  # Enable the uinput module
-  boot.kernelModules = [ "uinput" ];
-
-  # Enable uinput
-  hardware.uinput.enable = true;
-
-  # Set up udev rules for uinput
-  services.udev.extraRules = ''
-    KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
-  '';
-
-  # Ensure the uinput group exists
-  users.groups.uinput = { };
-
-  # Add the Kanata service user to necessary groups
-  systemd.services.kanata-internalKeyboard.serviceConfig = {
-    SupplementaryGroups = [
-      "input"
-      "uinput"
-    ];
-  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
