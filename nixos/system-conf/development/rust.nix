@@ -1,42 +1,61 @@
 {
-  config,
-  lib,
   pkgs,
   ...
 }:
-
 {
   config = {
     environment.systemPackages = with pkgs; [
-      # Base Rust toolchain
-      rustc
-      cargo
-      rust-analyzer
-      rustfmt
-      clippy
-      rustPlatform.rustLibSrc
+      # Core Rust toolchain with extensions
+      (rust-bin.stable.latest.default.override {
+        extensions = [
+          "rust-src"
+          "rust-analyzer"
+        ];
+      })
 
-      # Additional development tools
-      cargo-edit # adds cargo add, cargo rm, cargo upgrade commands
-      cargo-watch # for watch-and-rebuild functionality
-      cargo-audit # for security audits
-      cargo-expand # for viewing macro expansions
-      cargo-flamegraph # for performance profiling
-      cargo-outdated # for checking outdated dependencies
-      cargo-tarpaulin # for code coverage
+      ## Cargo Extensions
 
-      # Build dependencies commonly needed
-      pkg-config
-      openssl.dev
+      # Dependency management
+      cargo-edit # Adds `cargo add/rm/upgrade` commands for managing dependencies
 
-      # Debugging tools
-      gdb # for debugging Rust programs
-      lldb # alternative debugger
+      # Development workflow
+      cargo-watch # Watches files and runs commands on changes (hot reload)
+
+      # Security and maintenance
+      cargo-audit # Checks dependencies for security vulnerabilities
+      cargo-outdated # Shows which dependencies are outdated
+
+      # Debugging and profiling
+      cargo-expand # Shows result of macro expansion
+      cargo-flamegraph # Generates flamegraph for performance analysis
+
+      # Testing
+      cargo-tarpaulin # Code coverage reporting
+
+      ## System Dependencies
+
+      # Build essentials
+      pkg-config # Helps find installed libraries
+
+      # SSL Support - choose one:
+      openssl.dev # Development files for OpenSSL (headers + static libs)
+      # openssl        # Runtime only (dynamic libs)
+
+      ## Debugging Tools
+
+      gdb # GNU Debugger
+      lldb # LLVM Debugger (usually better for Rust)
     ];
 
+    # Optional but recommended environment variables
     environment.variables = {
-      RUST_SRC_PATH = "${pkgs.rustPlatform.rustLibSrc}";
-      # RUST_BACKTRACE = "1"; # Enable better error backtraces
+      # Enable backtrace by default
+      # RUST_BACKTRACE = "1";
+
+      # For projects using OpenSSL
+      OPENSSL_DIR = "${pkgs.openssl.dev}";
+      OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
+      OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
     };
   };
 }

@@ -1,12 +1,10 @@
 {
-  description = "Project-specific Rust environment";
+  description = "A devShell example";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    rust-overlay.url = "github:oxalica/rust-overlay";
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs =
@@ -14,25 +12,34 @@
       self,
       nixpkgs,
       rust-overlay,
+      flake-utils,
+      ...
     }:
-    let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [ rust-overlay.overlays.default ];
-      };
-    in
-    {
-      devShells.${system}.default = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          # Example: specific Rust version for this project
-          (rust-bin.stable."1.75.0".default.override {
-            extensions = [
-              "rust-src"
-              "rust-analyzer"
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        overlays = [ (import rust-overlay) ];
+        pkgs = import nixpkgs {
+          inherit system overlays;
+        };
+      in
+      {
+        devShells.default =
+          with pkgs;
+          mkShell {
+            buildInputs = [
+              openssl
+              pkg-config
+              eza
+              fd
+              rust-bin.beta.latest.default
             ];
-          })
-        ];
-      };
-    };
+
+            shellHook = ''
+              alias ls=eza
+              alias find=fd
+            '';
+          };
+      }
+    );
 }
