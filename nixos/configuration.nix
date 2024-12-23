@@ -23,6 +23,7 @@ let
     ./system-conf/development/flutter.nix
     ./system-conf/development/cpp.nix
     ./system-conf/development/elixir.nix
+    ./system-conf/development/rust.nix
   ];
 
 in

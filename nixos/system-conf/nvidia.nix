@@ -47,18 +47,18 @@
 
     prime = {
       # Sync mode can be enabled if you prefer to only use the NVIDIA GPU for rendering
-      sync.enable = true;
+      # sync.enable = true;
 
       # # ReverseSync mode
       # reverseSync.enable = true;
       # # Enable if using an external GPU
       # allowExternalGpu = false;
 
-      # # Offload mode
-      # offload = {
-      #   enable = true;
-      #   enableOffloadCmd = true;
-      # };
+      # Offload mode
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
 
       intelBusId = "PCI:0:2:0";
       nvidiaBusId = "PCI:1:0:0";
