@@ -1,11 +1,10 @@
 require("code_runner").setup {
   mode = "better_term",
-  better_term = { -- Toggle mode replacement
-    clean = true, -- Clean terminal before launch
-    number = 1, -- Use nil for dynamic number and set init
+  better_term = {
+    clean = true,
+    number = 1,
     init = nil,
   },
-
   filetype = {
     java = {
       "cd $dir &&",
@@ -14,18 +13,32 @@ require("code_runner").setup {
     },
     python = "python3 -u",
     typescript = "deno run",
-    rust = {
-      "cd $dir &&",
-      "rustc $fileName &&",
-      "$dir/$fileNameWithoutExt",
-    },
-    elixir = "elixir",
+    -- Fixed Rust configuration
+    rust = function()
+      local in_cargo_project = vim.fn.findfile("Cargo.toml", ".;") ~= ""
+      if in_cargo_project then
+        return "cd $dir && cargo run"
+      else
+        return {
+          "cd $dir &&",
+          "rustc $fileName &&",
+          "./$fileNameWithoutExt",
+        }
+      end
+    end,
+    -- Elixir configuration
+    elixir = function()
+      local in_phoenix_project = vim.fn.findfile("mix.exs", ".;") ~= ""
+        and vim.fn.system("grep -q phoenix " .. vim.fn.findfile("mix.exs", ".;")) == 0
+      if in_phoenix_project then
+        return "cd $dir && mix phx.server"
+      else
+        return "cd $dir && elixir $fileName"
+      end
+    end,
     cpp = {
       "cd build && cmake .. && make && nvidia-offload ./$fileNameWithoutExt; cd ..",
-      -- or if your executable name is different from the filename:
-      -- "cd build && cmake .. && make && ./your_project_name"
     },
-
     c = function(...)
       c_base = {
         "cd $dir &&",
@@ -43,7 +56,6 @@ require("code_runner").setup {
       end)
     end,
   },
-
   project = {
     ["~/python/intel_2021_1"] = {
       name = "Intel Course 2021",
