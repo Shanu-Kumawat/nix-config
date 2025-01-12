@@ -15,6 +15,7 @@
       enabled-extensions = [
         "${pkgs.gnomeExtensions.gsconnect.extensionUuid}"
         "${pkgs.gnomeExtensions.clipboard-indicator.extensionUuid}"
+        "${pkgs.gnomeExtensions.caffeine.extensionUuid}"
         "blur-my-shell@aunetx"
       ];
     };
@@ -25,6 +26,7 @@
     # gsconnect
     blur-my-shell
     clipboard-indicator
+    caffeine
   ];
 
   # If you want to configure extension settings, you can uncomment and adjust these:

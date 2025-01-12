@@ -1,4 +1,3 @@
-# elixir-phoenix.nix
 { config, pkgs, ... }:
 
 {
@@ -11,7 +10,10 @@
     # SQLite tools
     sqlite
     sqlite-interactive # Command line interface
-    # sqlitebrowser # GUI browser (optional)
+    sqlitebrowser # GUI browser (optional)
+
+    # PostgreSQL
+    pgadmin4
   ];
 
   # Set up environment variables for Elixir and Phoenix

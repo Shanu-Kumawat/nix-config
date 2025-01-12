@@ -36,11 +36,11 @@
       assimp
 
       # UI library
-      # imgui clone from docking branch 
+      # imgui clone from docking branch
 
       # Development Tools
-      valgrind
-      renderdoc
+      # valgrind
+      # renderdoc
     ];
 
     environment.variables = {

@@ -1,34 +1,36 @@
 {
-  config,
   lib,
   pkgs,
   ...
 }:
 
 with lib;
-
 let
-  cfg = config.programs.flutter;
-
+  androidSdk = androidComposition.androidsdk;
+  buildToolsVersionForAapt2 = "34.0.0";
   androidComposition = pkgs.androidenv.composeAndroidPackages {
-    toolsVersion = "26.1.1";
-    platformToolsVersion = "35.0.1";
+    cmdLineToolsVersion = "13.0";
+    # toolsVersion = "26.1.1";
+    platformToolsVersion = "35.0.2";
     buildToolsVersions = [
-      "30.0.3"
+      buildToolsVersionForAapt2
       "33.0.1"
-      "34.0.0"
     ];
     platformVersions = [
-      "31"
-      "33"
-      "34"
+      # "34"
+      "35"
     ];
-    abiVersions = [ "x86_64" ];
-    includeEmulator = true;
-    emulatorVersion = "35.1.4";
-    includeSystemImages = true;
-    systemImageTypes = [ "google_apis_playstore" ];
+    includeEmulator = false;
+    # emulatorVersion = "35.2.11";
+    includeSystemImages = false;
+    # systemImageTypes = [ "google_apis_playstore" ];
+    # abiVersions = [ "x86_64" ];
     includeSources = false;
+    includeNDK = false;
+    # ndkVersions = [ "22.0.7026061" ]; # As mentioned in docs
+    # cmakeVersions = [ "3.10.2" ]; # Added from docs
+    useGoogleAPIs = false;
+    useGoogleTVAddOns = false;
     extraLicenses = [
       "android-googletv-license"
       "android-sdk-arm-dbt-license"
@@ -40,55 +42,55 @@ let
       "mips-android-sysimage-license"
     ];
   };
-
-  androidSdk = androidComposition.androidsdk;
-
-  buildToolsVersion = "33.0.1";
-
 in
 {
-  options.programs.flutter = {
-    enable = mkEnableOption "Flutter development environment";
-    addToKvmGroup = mkEnableOption "Add user to KVM group for hardware acceleration";
-    enableAdb = mkEnableOption "Enable ADB and add user to adbusers group";
-    user = mkOption {
-      type = types.str;
-      description = "Username for Flutter development";
-    };
+
+  environment.systemPackages = with pkgs; [
+    flutter
+    androidSdk
+    jdk17
+    firebase-tools
+    android-studio
+    # qemu_kvm
+    # cmake
+    # ninja
+    # pkg-config
+  ];
+
+  environment.variables = {
+    # ANDROID_HOME = "${androidSdk}/libexec/android-sdk"; # Primary as per docs
+    # ANDROID_SDK_ROOT = "${androidSdk}/libexec/android-sdk"; # Kept for compatibility
+    # GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidSdk}/libexec/android-sdk/build-tools/${buildToolsVersionForAapt2}/aapt2";
+
+    JAVA_HOME = pkgs.jdk17.home;
+    QT_QPA_PLATFORM = "wayland;xcb"; # emulator related: try using wayland, otherwise fall back to X.
+
+    # emulator related: vulkan-loader and libGL shared libs are necessary for hardware decoding
+    # LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath [
+    #   pkgs.vulkan-loader
+    #   pkgs.libGL
+    # ]}";
   };
 
-  config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
-      flutter
-      androidSdk
-      # android-studio
-      jdk17
-      firebase-tools
-    ];
-
-    environment.variables = {
-      ANDROID_SDK_ROOT = "${androidSdk}/libexec/android-sdk";
-      ANDROID_HOME = "${androidSdk}/libexec/android-sdk";
-      JAVA_HOME = "${pkgs.jdk17}";
-      GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidSdk}/libexec/android-sdk/build-tools/34.0.0/aapt2";
-
-    };
-
-    nixpkgs.config = {
-      android_sdk.accept_license = true;
-      allowUnfree = true;
-    };
-
-    environment.shellInit = ''
-      export PATH=$PATH:${androidSdk}/libexec/android-sdk/platform-tools
-      export PATH=$PATH:${androidSdk}/libexec/android-sdk/cmdline-tools/latest/bin
-      export PATH=$PATH:${androidSdk}/libexec/android-sdk/emulator
-      export PATH="$PATH":"$HOME/.pub-cache/bin"
-    '';
-
-    programs.adb.enable = cfg.enableAdb;
-    users.users.${cfg.user}.extraGroups =
-      (optional cfg.addToKvmGroup "kvm") ++ (optional cfg.enableAdb "adbusers");
-
+  nixpkgs.config = {
+    android_sdk.accept_license = true;
+    allowUnfree = true;
   };
+
+  environment.shellInit = ''
+    export PATH="$PATH":"$HOME/.pub-cache/bin"
+    export PATH="$PATH":"$HOME/.config/flutter/bin"
+  '';
+  # export PATH=$PATH:${androidSdk}/libexec/android-sdk/platform-tools
+  #   export PATH=$PATH:${androidSdk}/libexec/android-sdk/cmdline-tools/13.0/bin
+  #   export PATH=$PATH:${androidSdk}/libexec/android-sdk/emulator
+
+  services.udev.packages = [ pkgs.android-udev-rules ];
+
+  programs.adb.enable = true;
+  users.users."shanu".extraGroups = [
+    "kvm"
+    "adbusers"
+  ];
+
 }

@@ -30,13 +30,6 @@ in
 {
   imports = systemImports ++ developmentImports;
 
-  programs.flutter = {
-    enable = true;
-    addToKvmGroup = true;
-    enableAdb = true;
-    user = "shanu"; # Replace with your actual username
-  };
-
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -101,7 +94,7 @@ in
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -173,6 +166,7 @@ in
     blender
     gnome-network-displays
     appflowy
+    code-cursor
 
   ];
 
