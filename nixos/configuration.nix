@@ -14,6 +14,7 @@ let
     ./system-conf/gpg.nix
     ./system-conf/gnome.nix
     ./system-conf/obsidian.nix
+    # ./system-conf/ollama.nix
   ];
 
   # Development-related imports
@@ -167,18 +168,17 @@ in
     gnome-network-displays
     appflowy
     code-cursor
+    ollama-cuda
 
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  # Enable nix-direnv
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 
-  # List services that you want to enable:
+  programs.mtr.enable = true;
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
@@ -201,6 +201,11 @@ in
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  networking.nameservers = [
+    "8.8.8.8" # Google DNS (primary)
+    "1.1.1.1" # Cloudflare DNS (secondary)
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

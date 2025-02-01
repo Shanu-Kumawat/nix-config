@@ -17,7 +17,7 @@ let
       "33.0.1"
     ];
     platformVersions = [
-      # "34"
+      "34" # ShoreGuard
       "35"
     ];
     includeEmulator = false;
