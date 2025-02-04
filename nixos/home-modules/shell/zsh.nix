@@ -6,6 +6,7 @@
   shellAliases = {
     vim = "nvim";
     ls = "ls --color";
+    nsr = "sudo nixos-rebuild switch --flake ~/nix-config/nixos#sk-nixos";
   };
   initExtra = ''
     bindkey -e

@@ -20,20 +20,18 @@
     "vmd"
     "nvme"
     "usbhid"
-    "usb_storage"
-    "sd_mod"
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/5794bdd4-0bc8-47f4-8156-9da78cab71b2";
+    device = "/dev/disk/by-uuid/c6cd854f-3188-423d-a065-1c2973755bff";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/BE28-260B";
+    device = "/dev/disk/by-uuid/63A0-1A47";
     fsType = "vfat";
     options = [
       "fmask=0077"

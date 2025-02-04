@@ -33,14 +33,31 @@ in
 
   # Bootloader.
   # boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot = {
+    loader = {
+      efi.canTouchEfiVariables = true;
 
-  boot.loader.grub = {
-    enable = true;
-    device = "nodev";
-    useOSProber = true;
-    efiSupport = true;
+      grub = {
+        enable = true;
+        device = "nodev";
+        useOSProber = true;
+        efiSupport = true;
+      };
+    };
 
+    supportedFilesystems = [ "ntfs" ];
+  };
+
+  fileSystems."/media/acer" = {
+    device = "/dev/disk/by-uuid/8CF8A6AAF8A6924E";
+    fsType = "ntfs-3g";
+    options = [
+      "defaults"
+      "uid=1000" # set owner to your user (id -u returns 1000)
+      "gid=100" # set group to your primary group (id -g returns 100)
+      "windows_names" # avoid names invalid in Windows
+      "locale=en_US.utf8"
+    ];
   };
 
   # Fixing clock
@@ -168,7 +185,7 @@ in
     gnome-network-displays
     appflowy
     code-cursor
-    ollama-cuda
+    # ollama-cuda
 
   ];
 
@@ -213,6 +230,6 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 
 }
