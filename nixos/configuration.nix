@@ -2,11 +2,16 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{
+  pkgs,
+  nixos-grub-themes,
+  ...
+}:
 
 let
   # System-related imports
   systemImports = [
+    # ./system-conf/ollama.nix
     ./hardware-configuration.nix
     ./system-conf/nvidia.nix
     ./system-conf/tlp.nix
@@ -14,14 +19,14 @@ let
     ./system-conf/gpg.nix
     ./system-conf/gnome.nix
     ./system-conf/obsidian.nix
-    # ./system-conf/ollama.nix
+    ./system-conf/kanata.nix
   ];
 
   # Development-related imports
   developmentImports = [
+    ./system-conf/development/flutter.nix
     ./system-conf/development/languages.nix
     ./system-conf/development/nvim-lsp.nix
-    ./system-conf/development/flutter.nix
     ./system-conf/development/cpp.nix
     ./system-conf/development/elixir.nix
     ./system-conf/development/rust.nix
@@ -42,6 +47,7 @@ in
         device = "nodev";
         useOSProber = true;
         efiSupport = true;
+        theme = nixos-grub-themes.packages.${pkgs.system}.hyperfluent;
       };
     };
 

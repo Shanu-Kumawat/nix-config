@@ -8,8 +8,11 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Alacritty theme
+    # Alacritty Theme
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
+
+    # Grub Theme
+    nixos-grub-themes.url = "github:jeslie0/nixos-grub-themes";
 
     # Rust overlay
     rust-overlay = {
@@ -25,6 +28,7 @@
       nixpkgs,
       home-manager,
       alacritty-theme,
+      nixos-grub-themes,
       rust-overlay,
       ...
     }@inputs:
@@ -36,10 +40,10 @@
 
       nixosConfigurations.sk-nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { inherit nixos-grub-themes; };
         modules = [
 
           ./configuration.nix
-          ./system-conf/kanata.nix
           ./system-conf/development/rust.nix
 
           # Home Manager

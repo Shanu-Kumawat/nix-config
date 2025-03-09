@@ -17,6 +17,7 @@ let
       "33.0.1"
     ];
     platformVersions = [
+      "33"
       "34" # ShoreGuard
       "35"
     ];
@@ -46,15 +47,12 @@ in
 {
 
   environment.systemPackages = with pkgs; [
-    flutter
-    androidSdk
     jdk17
     firebase-tools
+    qemu_kvm
+    androidSdk
+    flutter
     android-studio
-    # qemu_kvm
-    # cmake
-    # ninja
-    # pkg-config
   ];
 
   environment.variables = {
@@ -79,7 +77,6 @@ in
 
   environment.shellInit = ''
     export PATH="$PATH":"$HOME/.pub-cache/bin"
-    export PATH="$PATH":"$HOME/.config/flutter/bin"
   '';
   # export PATH=$PATH:${androidSdk}/libexec/android-sdk/platform-tools
   #   export PATH=$PATH:${androidSdk}/libexec/android-sdk/cmdline-tools/13.0/bin

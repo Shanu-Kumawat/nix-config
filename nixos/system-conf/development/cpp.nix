@@ -45,7 +45,12 @@
 
     environment.variables = {
       PKG_CONFIG_PATH = "${pkgs.glfw}/lib/pkgconfig:${pkgs.SDL2.dev}/lib/pkgconfig:${pkgs.imgui}/lib/pkgconfig:$PKG_CONFIG_PATH";
-      LD_LIBRARY_PATH = "${pkgs.SDL2}/lib:/run/opengl-driver/lib:/run/opengl-driver-32/lib";
+      LD_LIBRARY_PATH = "${pkgs.SDL2}/lib:/run/opengl-driver/lib:/run/opengl-driver-32/lib:${
+        pkgs.lib.makeLibraryPath [
+          pkgs.vulkan-loader
+          pkgs.libGL
+        ]
+      }";
       CPLUS_INCLUDE_PATH = "${pkgs.xorg.xorgproto}/include:${pkgs.xorg.libX11.dev}/include:${pkgs.SDL2.dev}/include";
       CMAKE_PREFIX_PATH = "${pkgs.SDL2.dev}:${pkgs.SDL2}";
     };

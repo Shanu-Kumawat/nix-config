@@ -16,6 +16,11 @@ return {
   },
 
   {
+    "github/copilot.vim",
+    lazy = false, -- This plugin is already lazy
+  },
+
+  {
     "elixir-tools/elixir-tools.nvim",
     version = "*",
     event = { "BufReadPre", "BufNewFile" },
